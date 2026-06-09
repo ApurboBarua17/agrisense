@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: agrisense
+  labels:
+    app: agrisense
+    track: reasoning-agents

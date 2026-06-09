@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: agrisense-config
+  namespace: agrisense
+data:
+  REDIS_HOST: "redis-service"
+  REDIS_PORT: "6379"
+  DATABASE_URL: "postgresql://agrisense:agrisense@postgres-service:5432/agrisense"
+  FOUNDRY_IQ_URL: "http://foundry-iq-service:8001"
+  MARKET_INTEL_URL: "http://market-intel-service:8002"

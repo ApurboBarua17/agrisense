@@ -1,0 +1,19 @@
+# THE KEY PIECE — KEDA watches the Redis list `disease_jobs` and scales the
+# disease-detector deployment from 0 -> N based on queue depth.
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: disease-detector-scaler
+  namespace: agrisense
+spec:
+  scaleTargetRef:
+    name: disease-detector
+  minReplicaCount: 0        # Scales TO ZERO when no work (saves resources)
+  maxReplicaCount: 10       # Can scale up to 10 pods during peak
+  cooldownPeriod: 30        # Seconds before scaling back down
+  triggers:
+  - type: redis
+    metadata:
+      address: redis-service.agrisense.svc.cluster.local:6379
+      listName: disease_jobs
+      listLength: "1"        # Scale up when 1+ jobs in queue

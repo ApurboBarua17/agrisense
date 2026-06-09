@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: disease-detector
+  namespace: agrisense
+spec:
+  replicas: 0          # KEDA manages this — starts at 0
+  selector:
+    matchLabels:
+      app: disease-detector
+  template:
+    metadata:
+      labels:
+        app: disease-detector
+    spec:
+      containers:
+      - name: disease-detector
+        image: agrisense-disease-detector:latest
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: agrisense-config
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "200m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"

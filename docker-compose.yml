@@ -1,0 +1,75 @@
+version: "3.9"
+
+services:
+  redis:
+    image: redis:7.2-alpine
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: agrisense
+      POSTGRES_PASSWORD: agrisense
+      POSTGRES_DB: agrisense
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  api-gateway:
+    build: ./services/api-gateway
+    ports:
+      - "8000:8000"
+    environment:
+      REDIS_HOST: redis
+      DATABASE_URL: postgresql://agrisense:agrisense@postgres:5432/agrisense
+    depends_on:
+      - redis
+      - postgres
+    restart: unless-stopped
+
+  disease-detector:
+    build: ./services/disease-detector
+    environment:
+      REDIS_HOST: redis
+      DATABASE_URL: postgresql://agrisense:agrisense@postgres:5432/agrisense
+      FOUNDRY_IQ_URL: http://foundry-iq:8001
+      MARKET_INTEL_URL: http://market-intel:8002
+    depends_on:
+      - redis
+      - postgres
+      - foundry-iq
+      - market-intel
+    restart: unless-stopped
+
+  foundry-iq:
+    build: ./services/foundry-iq
+    ports:
+      - "8001:8001"
+    environment:
+      AZURE_AI_PROJECT_CONNECTION_STRING: ${AZURE_AI_PROJECT_CONNECTION_STRING:-}
+    restart: unless-stopped
+
+  market-intel:
+    build: ./services/market-intel
+    ports:
+      - "8002:8002"
+    environment:
+      USDA_NASS_API_KEY: ${USDA_NASS_API_KEY:-DEMO_KEY}
+    restart: unless-stopped
+
+  frontend:
+    build: ./services/frontend
+    ports:
+      - "8501:8501"
+    environment:
+      API_URL: http://api-gateway:8000
+    depends_on:
+      - api-gateway
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: foundry-iq
+  namespace: agrisense
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: foundry-iq
+  template:
+    metadata:
+      labels:
+        app: foundry-iq
+    spec:
+      containers:
+      - name: foundry-iq
+        image: agrisense-foundry-iq:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8001
+        envFrom:
+        - configMapRef:
+            name: agrisense-config
+        env:
+        - name: AZURE_AI_PROJECT_CONNECTION_STRING
+          valueFrom:
+            secretKeyRef:
+              name: azure-secrets
+              key: connection-string
+              optional: true
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: market-intel
+  namespace: agrisense
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: market-intel
+  template:
+    metadata:
+      labels:
+        app: market-intel
+    spec:
+      containers:
+      - name: market-intel
+        image: agrisense-market-intel:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8002
+        envFrom:
+        - configMapRef:
+            name: agrisense-config
+        env:
+        - name: USDA_NASS_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: agrisense-secrets
+              key: usda-api-key
+              optional: true
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
