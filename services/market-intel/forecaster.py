@@ -1,11 +1,12 @@
 """Prophet-based crop price forecasting."""
-from prophet import Prophet
-import pandas as pd
 import warnings
 
 warnings.filterwarnings("ignore")
 
-from usda_client import get_historical_prices
+from prophet import Prophet  # noqa: E402  (imported after filterwarnings to suppress prophet startup warnings)
+import pandas as pd  # noqa: E402
+
+from usda_client import get_historical_prices  # noqa: E402
 
 
 def forecast_crop_price(crop: str, weeks_ahead: int = 3) -> dict:
