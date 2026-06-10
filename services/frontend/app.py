@@ -12,10 +12,223 @@ st.set_page_config(
     layout="centered",
 )
 
-st.title("🌾 AgriSense")
-st.subheader("Crop Disease Detection & Market Intelligence")
-st.caption("Powered by Azure AI Foundry (Foundry IQ) + Kubernetes + KEDA")
-st.markdown("---")
+# Production-grade visual polish. Theme tokens live in .streamlit/config.toml;
+# this block handles typography, spacing, cards, and component overrides
+# Streamlit's theme tokens can't reach. Keep it tight — no external fonts/JS.
+st.markdown(
+    """
+    <style>
+      /* --- Typography ----------------------------------------------------- */
+      html, body, [class*="st-"], .stApp {
+        font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI",
+                     Roboto, "Helvetica Neue", Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* --- Layout --------------------------------------------------------- */
+      .stApp { background: #F8FAF6; }
+      .main .block-container {
+        padding-top: 2.25rem;
+        padding-bottom: 3rem;
+        max-width: 760px;
+      }
+
+      /* --- Hero ----------------------------------------------------------- */
+      .agri-hero {
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(135deg, #15803D 0%, #16A34A 60%, #22C55E 100%);
+        color: #ffffff;
+        padding: 1.8rem 2rem 1.5rem 2rem;
+        border-radius: 16px;
+        margin: 0.25rem 0 1.5rem 0;
+        box-shadow:
+          0 1px 2px rgba(15, 23, 42, 0.06),
+          0 10px 28px rgba(22, 163, 74, 0.20);
+      }
+      .agri-hero::before {
+        content: "";
+        position: absolute; inset: 0;
+        background: radial-gradient(
+          circle at 100% 0%,
+          rgba(255, 255, 255, 0.16) 0%,
+          rgba(255, 255, 255, 0) 55%
+        );
+        pointer-events: none;
+      }
+      .agri-hero-title {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        line-height: 1.15;
+      }
+      .agri-hero-subtitle {
+        margin: 0.45rem 0 0 0;
+        font-size: 0.97rem;
+        line-height: 1.5;
+        opacity: 0.94;
+        font-weight: 400;
+        max-width: 38rem;
+      }
+      .agri-hero-badges {
+        display: flex;
+        gap: 0.45rem;
+        margin-top: 1.1rem;
+        flex-wrap: wrap;
+      }
+      .agri-badge {
+        background: rgba(255, 255, 255, 0.14);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        color: #ffffff;
+        padding: 0.25rem 0.7rem;
+        font-size: 0.73rem;
+        font-weight: 500;
+        letter-spacing: 0.01em;
+        border-radius: 999px;
+      }
+
+      /* --- File uploader -------------------------------------------------- */
+      [data-testid="stFileUploader"] section {
+        border: 2px dashed #16A34A !important;
+        background: linear-gradient(180deg, #F7FCF5 0%, #ECFDF5 100%) !important;
+        border-radius: 14px !important;
+        padding: 1.25rem !important;
+        transition: background 0.15s ease, border-color 0.15s ease;
+      }
+      [data-testid="stFileUploader"] section:hover {
+        background: linear-gradient(180deg, #F0FDF4 0%, #DCFCE7 100%) !important;
+        border-color: #15803D !important;
+      }
+
+      /* --- Buttons -------------------------------------------------------- */
+      .stButton > button {
+        border-radius: 10px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        transition: transform 0.1s ease, box-shadow 0.15s ease, background 0.15s ease;
+      }
+      .stButton > button[kind="primary"] {
+        background: linear-gradient(180deg, #16A34A 0%, #15803D 100%);
+        border: none;
+        color: #ffffff;
+        box-shadow: 0 1px 2px rgba(22, 163, 74, 0.25);
+      }
+      .stButton > button[kind="primary"]:hover {
+        background: linear-gradient(180deg, #22C55E 0%, #16A34A 100%);
+        box-shadow: 0 3px 8px rgba(22, 163, 74, 0.30);
+        transform: translateY(-1px);
+      }
+
+      /* --- Expanders as cards -------------------------------------------- */
+      [data-testid="stExpander"] {
+        border: 1px solid #E5E7EB !important;
+        border-radius: 12px !important;
+        background: #ffffff !important;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+        margin-bottom: 0.75rem;
+        overflow: hidden;
+      }
+      [data-testid="stExpander"] details summary {
+        padding: 0.85rem 1.1rem !important;
+        font-weight: 600 !important;
+        background: #FAFBFA;
+      }
+      [data-testid="stExpander"] details[open] summary {
+        border-bottom: 1px solid #E5E7EB;
+      }
+
+      /* --- Metrics ------------------------------------------------------- */
+      [data-testid="stMetric"] {
+        background: #ffffff;
+        padding: 0.95rem 1rem;
+        border-radius: 12px;
+        border: 1px solid #E5E7EB;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+      }
+      [data-testid="stMetricLabel"] {
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: 0.7rem !important;
+        font-weight: 600 !important;
+        color: #6B7280 !important;
+      }
+      [data-testid="stMetricValue"] {
+        font-size: 1.5rem !important;
+        font-weight: 700 !important;
+        letter-spacing: -0.01em;
+        color: #111827 !important;
+      }
+
+      /* --- Alert banners (success/warning/error/info) -------------------- */
+      [data-testid="stAlert"] {
+        border-radius: 12px !important;
+        border-left-width: 4px !important;
+        padding: 0.9rem 1.1rem !important;
+        font-weight: 500;
+      }
+
+      /* --- Progress bar -------------------------------------------------- */
+      [data-testid="stProgress"] > div > div > div > div {
+        background: linear-gradient(90deg, #16A34A 0%, #22C55E 100%) !important;
+      }
+
+      /* --- Sidebar polish ------------------------------------------------ */
+      [data-testid="stSidebar"] {
+        background: #F4F4EE;
+        border-right: 1px solid #E5E7EB;
+      }
+      [data-testid="stSidebar"] h1,
+      [data-testid="stSidebar"] h2,
+      [data-testid="stSidebar"] h3 {
+        font-size: 0.78rem !important;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #4B5563 !important;
+        font-weight: 700 !important;
+      }
+
+      /* --- Dividers ------------------------------------------------------ */
+      hr {
+        border-color: #E5E7EB !important;
+        margin: 1.5rem 0 !important;
+      }
+
+      /* --- Footer -------------------------------------------------------- */
+      .agri-footer {
+        margin: 2.5rem 0 0 0;
+        padding: 1.25rem 0 0 0;
+        border-top: 1px solid #E5E7EB;
+        font-size: 0.78rem;
+        color: #6B7280;
+        text-align: center;
+        line-height: 1.6;
+      }
+      .agri-footer a {
+        color: #15803D;
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .agri-footer a:hover { text-decoration: underline; }
+    </style>
+
+    <div class="agri-hero">
+      <h1 class="agri-hero-title">🌾 AgriSense</h1>
+      <p class="agri-hero-subtitle">
+        Diagnose crop disease from a single photo — and get USDA-grounded treatment
+        plus market sell-timing in seconds.
+      </p>
+      <div class="agri-hero-badges">
+        <span class="agri-badge">Foundry IQ</span>
+        <span class="agri-badge">HuggingFace ViT</span>
+        <span class="agri-badge">Prophet</span>
+        <span class="agri-badge">KEDA autoscaling</span>
+      </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
 
 def display_results(data: dict) -> None:
@@ -200,3 +413,14 @@ with st.sidebar:
 - PostgreSQL result store
 """
     )
+
+# Footer
+st.markdown(
+    """
+    <div class="agri-footer">
+      AgriSense · Agents League 2026 · Reasoning Agents track<br>
+      <a href="https://github.com/ApurboBarua17/agrisense" target="_blank">github.com/ApurboBarua17/agrisense</a>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
