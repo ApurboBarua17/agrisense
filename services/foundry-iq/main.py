@@ -1,9 +1,9 @@
-"""FastAPI wrapper around the Azure AI Foundry agent."""
+"""FastAPI wrapper around the GitHub-Models-backed treatment agent."""
 from fastapi import FastAPI
 from pydantic import BaseModel
 import asyncio
 
-from agent import get_treatment, setup_agent, FALLBACK_MODE
+from agent import get_treatment, setup_agent, MODEL
 
 app = FastAPI(title="AgriSense Foundry IQ Service")
 
@@ -20,8 +20,8 @@ async def startup():
     try:
         await loop.run_in_executor(None, setup_agent)
     except Exception as e:
-        # Don't kill the service if Azure setup fails — fall back to stub responses
-        print(f"[foundry] setup_agent failed: {e}. Service will run in fallback mode.")
+        # Don't kill the service if the connection check fails — get_treatment has its own fallback
+        print(f"[foundry] setup_agent failed: {e}. Service will still serve fallback responses.")
 
 
 @app.post("/treatment")
@@ -34,14 +34,10 @@ async def get_treatment_endpoint(req: TreatmentRequest):
         "crop": req.crop,
         "disease": req.disease,
         "treatment": treatment,
-        "source": (
-            "Fallback (Azure not configured)"
-            if FALLBACK_MODE
-            else "Azure AI Foundry (Foundry IQ) + USDA Extension Documents"
-        ),
+        "source": f"GitHub Models ({MODEL}) + USDA Extension documents",
     }
 
 
 @app.get("/health")
 async def health():
-    return {"status": "ok", "mode": "fallback" if FALLBACK_MODE else "azure"}
+    return {"status": "ok", "model": MODEL}

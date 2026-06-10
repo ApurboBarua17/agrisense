@@ -1,10 +1,8 @@
-version: "3.9"
-
 services:
   redis:
     image: redis:7.2-alpine
-    ports:
-      - "6379:6379"
+    # No host port mapping — only other containers in this compose network need access.
+    # Reach it via service DNS: redis:6379
     restart: unless-stopped
 
   postgres:
@@ -50,7 +48,8 @@ services:
     ports:
       - "8001:8001"
     environment:
-      AZURE_AI_PROJECT_CONNECTION_STRING: ${AZURE_AI_PROJECT_CONNECTION_STRING:-}
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+      AZURE_MODEL_DEPLOYMENT: ${AZURE_MODEL_DEPLOYMENT}
     restart: unless-stopped
 
   market-intel:

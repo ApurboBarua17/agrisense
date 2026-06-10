@@ -1,0 +1,185 @@
+AGRISENSE PLANT DISEASE TREATMENT GUIDE
+Source: USDA Extension / UC IPM Integrated Pest Management Guidelines
+========================================================
+
+TOMATO — EARLY BLIGHT (Alternaria solani)
+Symptoms: Dark brown spots with concentric rings on lower leaves first.
+Chemical: Copper hydroxide 2.5g/L or Chlorothalonil 4ml/L every 7 days for 3 weeks.
+Organic: Neem oil 5ml/L with dish soap every 5-7 days in evening.
+Immediate: Remove infected lower leaves. Do not compost.
+Prevention: Crop rotation (3 years). Mulch base. Water at roots only.
+
+TOMATO — LATE BLIGHT (Phytophthora infestans)
+Symptoms: Greasy gray-green spots on leaves, white mold on undersides. Spreads rapidly.
+Chemical: Mancozeb 2g/L or metalaxyl-based fungicide every 5-7 days. URGENT — spreads fast.
+Organic: Copper sulfate 3g/L every 5 days. Remove all infected plants immediately.
+Immediate: Isolate infected plants from others today. Apply fungicide immediately.
+Prevention: Resistant varieties. Avoid overhead watering. Space plants for airflow.
+
+TOMATO — BACTERIAL SPOT (Xanthomonas campestris)
+Symptoms: Small dark water-soaked spots on leaves and fruit with yellow halo.
+Chemical: Copper-based bactericide 2.5g/L plus Mancozeb 1.5g/L every 7-10 days.
+Organic: Copper sulfate 2g/L spray. Remove infected leaves.
+Immediate: Remove infected plant parts. Avoid working with wet plants.
+Prevention: Use certified disease-free seed. Avoid overhead irrigation.
+
+TOMATO — LEAF MOLD (Passalora fulva)
+Symptoms: Pale green or yellow spots on upper leaf surface, olive-green mold beneath.
+Chemical: Chlorothalonil 4ml/L or copper fungicide every 10 days.
+Organic: Bacillus subtilis-based spray (Serenade) per label instructions.
+Immediate: Improve ventilation. Remove heavily infected leaves.
+Prevention: Reduce humidity. Space plants. Use resistant varieties.
+
+TOMATO — SEPTORIA LEAF SPOT (Septoria lycopersici)
+Symptoms: Circular spots with dark borders and light centers on lower leaves.
+Chemical: Mancozeb 2g/L or copper hydroxide 2.5g/L every 7-10 days.
+Organic: Copper-based spray every 7 days. Neem oil as preventive.
+Immediate: Remove infected lower leaves. Mulch to prevent soil splash.
+Prevention: Crop rotation 2-3 years. Stake plants for airflow.
+
+TOMATO — SPIDER MITES (Tetranychus urticae)
+Symptoms: Yellow stippling on leaves, fine webbing on undersides. Leaves bronze, drop.
+Chemical: Miticide (abamectin) per label. Horticultural oil 10ml/L.
+Organic: Insecticidal soap 5ml/L. Strong water spray to dislodge mites.
+Immediate: Spray undersides of leaves with water. Introduce predatory mites if available.
+Prevention: Avoid drought stress. Avoid dusty conditions. Monitor regularly.
+
+TOMATO — TARGET SPOT (Corynespora cassiicola)
+Symptoms: Brown circular lesions with concentric rings and yellow halo on leaves and fruit.
+Chemical: Azoxystrobin or pyraclostrobin fungicide per label every 10-14 days.
+Organic: Copper-based fungicide 2.5g/L every 7-10 days.
+Immediate: Remove infected plant material. Improve air circulation.
+Prevention: Crop rotation. Resistant varieties. Avoid excessive nitrogen.
+
+TOMATO — YELLOW LEAF CURL VIRUS (TYLCV)
+Symptoms: Upward curling of leaves, yellowing, stunted growth. No cure.
+Chemical: Control whitefly vector — imidacloprid per label or insecticidal soap.
+Organic: Reflective mulch to deter whiteflies. Yellow sticky traps.
+Immediate: Remove and destroy infected plants to prevent spread. Cannot be cured.
+Prevention: Resistant varieties. Control whitefly populations. Use row covers.
+
+TOMATO — MOSAIC VIRUS (TMV/ToMV)
+Symptoms: Mottled light and dark green on leaves, distorted growth, reduced yield. No cure.
+Chemical: No chemical cure. Control aphid vectors with insecticidal soap 5ml/L.
+Organic: Remove infected plants. Wash hands/tools with soap between plants.
+Immediate: Remove infected plants immediately. Disinfect all tools.
+Prevention: Resistant varieties. Wash hands after handling tobacco products.
+
+APPLE — APPLE SCAB (Venturia inaequalis)
+Symptoms: Olive-green to brown velvety spots on leaves and fruit. Fruit cracks and deforms.
+Chemical: Captan 2g/L or myclobutanil 0.5ml/L from bud break every 7-10 days.
+Organic: Sulfur spray 3g/L. Lime sulfur during dormancy.
+Immediate: Remove fallen leaves. Apply fungicide at first sign.
+Prevention: Resistant varieties. Rake and destroy fallen leaves. Prune for airflow.
+
+APPLE — BLACK ROT (Botryosphaeria obtusa)
+Symptoms: Brown leaf spots with purple margins. Fruit rots starting at calyx end.
+Chemical: Captan or thiophanate-methyl per label from petal fall through summer.
+Organic: Copper fungicide 2.5g/L. Remove mummified fruit.
+Immediate: Prune out infected branches 15cm below visible infection. Remove mummified fruit.
+Prevention: Remove dead wood. Avoid wounding trees. Maintain tree vigor.
+
+APPLE — CEDAR APPLE RUST (Gymnosporangium juniperi-virginianae)
+Symptoms: Bright orange-yellow spots on upper leaf surface. Tube-like structures beneath.
+Chemical: Myclobutanil 0.5ml/L or propiconazole starting at pink bud stage every 7-10 days.
+Organic: Sulfur spray 3g/L during critical infection periods in spring.
+Immediate: Apply fungicide at first sign. Remove nearby juniper/cedar galls if possible.
+Prevention: Plant resistant varieties. Remove alternate hosts (cedars) within 300m if feasible.
+
+GRAPE — BLACK ROT (Guignardia bidwellii)
+Symptoms: Brown leaf spots with dark borders. Fruit shrivels to hard black mummies.
+Chemical: Myclobutanil or mancozeb 2g/L from bud break through veraison every 7-14 days.
+Organic: Copper sulfate 3g/L. Remove mummified berries.
+Immediate: Remove all mummified fruit. Apply fungicide immediately.
+Prevention: Remove all mummified berries in winter. Prune for airflow. Avoid overhead irrigation.
+
+GRAPE — ESCA (Black Measles)
+Symptoms: Tiger-stripe patterns on leaves, berries with dark spots (measles). Wood decay.
+Chemical: No effective chemical cure. Potassium arsenite (restricted use) in some regions.
+Organic: Pruning wound protectants. Remove infected wood.
+Immediate: Prune out infected canes. Paint pruning wounds with wound protectant.
+Prevention: Prune during dry weather. Protect pruning wounds immediately. Avoid large pruning cuts.
+
+GRAPE — LEAF BLIGHT (Isariopsis Leaf Spot)
+Symptoms: Angular brown spots on leaves, often following veins. Premature defoliation.
+Chemical: Mancozeb 2g/L or copper fungicide every 10-14 days.
+Organic: Copper hydroxide 2g/L. Improve canopy airflow.
+Immediate: Remove infected leaves. Apply protective fungicide.
+Prevention: Train vines for airflow. Avoid excessive nitrogen. Remove infected debris.
+
+POTATO — EARLY BLIGHT (Alternaria solani)
+Symptoms: Dark brown target-like spots on older leaves first. Yellowing around spots.
+Chemical: Chlorothalonil 4ml/L or mancozeb 2g/L every 7-10 days.
+Organic: Copper hydroxide 2.5g/L every 7 days. Remove infected lower leaves.
+Immediate: Remove severely infected lower leaves. Apply fungicide.
+Prevention: Use certified seed potatoes. Crop rotation 3 years. Maintain plant vigor.
+
+POTATO — LATE BLIGHT (Phytophthora infestans)
+Symptoms: Water-soaked spots turning brown with white mold. Spreads extremely rapidly.
+Chemical: Metalaxyl + mancozeb or cymoxanil every 5-7 days. URGENT — can destroy crop in days.
+Organic: Copper sulfate 3g/L every 5 days. Bordeaux mixture.
+Immediate: Apply fungicide TODAY. Remove and destroy infected plants. Do not compost.
+Prevention: Certified seed. Resistant varieties. Avoid overhead irrigation. Monitor daily.
+
+CORN — GRAY LEAF SPOT (Cercospora zeae-maydis)
+Symptoms: Rectangular gray-tan lesions parallel to leaf veins. Leaves die from bottom up.
+Chemical: Strobilurin or triazole fungicide at tasseling if disease pressure high.
+Organic: Crop rotation is primary management. Tillage to reduce residue.
+Immediate: Scout field regularly. Apply fungicide if lesions reach third leaf below ear.
+Prevention: Resistant hybrids. Crop rotation with non-host crops. Reduce crop residue.
+
+CORN — COMMON RUST (Puccinia sorghi)
+Symptoms: Brick-red oval pustules on both leaf surfaces. Leaves yellow and die.
+Chemical: Triazole fungicide (propiconazole) at first sign if susceptible hybrid.
+Organic: Sulfur spray 3g/L as protectant. Plant resistant varieties.
+Immediate: Scout for pustules. Apply fungicide if conditions favor spread (cool, humid).
+Prevention: Resistant hybrids. Early planting. Monitor regional rust forecasts.
+
+CORN — NORTHERN LEAF BLIGHT (Exserohilum turcicum)
+Symptoms: Long cigar-shaped gray-green lesions on leaves. Can cause significant yield loss.
+Chemical: Azoxystrobin or propiconazole at VT/R1 stage if disease present and conditions favorable.
+Organic: Crop rotation. Resistant hybrids are most effective management.
+Immediate: Scout field. Apply fungicide before disease reaches ear leaf.
+Prevention: Resistant hybrids (most effective). Crop rotation. Tillage to reduce residue.
+
+PEACH — BACTERIAL SPOT (Xanthomonas arboricola)
+Symptoms: Small dark spots on leaves with yellow halo. Spots on fruit. Premature leaf drop.
+Chemical: Copper hydroxide 2.5g/L from shuck split through harvest every 7-10 days.
+Organic: Copper sulfate 2g/L. Kaolin clay as protective barrier on fruit.
+Immediate: Apply copper spray. Remove infected leaves if heavy infection.
+Prevention: Resistant varieties. Avoid overhead irrigation. Prune for airflow.
+
+PEPPER — BACTERIAL SPOT (Xanthomonas campestris)
+Symptoms: Water-soaked spots on leaves, stems and fruit. Spots turn brown with yellow halo.
+Chemical: Copper hydroxide 2.5g/L plus mancozeb 1.5g/L every 5-7 days.
+Organic: Copper-based spray. Remove infected plant material.
+Immediate: Remove infected leaves. Apply copper spray. Avoid working with wet plants.
+Prevention: Certified disease-free transplants. Crop rotation. Drip irrigation.
+
+STRAWBERRY — LEAF SCORCH (Diplocarpon earlianum)
+Symptoms: Small purple to red spots on leaves expanding with gray centers. Leaves turn brown.
+Chemical: Captan 2g/L or myclobutanil 0.5ml/L every 10-14 days.
+Organic: Remove infected leaves. Copper-based spray as protectant.
+Immediate: Remove heavily infected leaves. Improve airflow through bed renovation.
+Prevention: Resistant varieties. Avoid overhead irrigation. Renovate beds after harvest.
+
+CHERRY — POWDERY MILDEW (Podosphaera clandestina)
+Symptoms: White powdery coating on young leaves, shoots and fruit. Leaves curl and distort.
+Chemical: Sulfur 3g/L or myclobutanil 0.5ml/L every 7-14 days. Do not apply sulfur above 32°C.
+Organic: Potassium bicarbonate 5g/L or neem oil 5ml/L. Improve airflow.
+Immediate: Apply fungicide at first sign. Remove heavily infected shoots.
+Prevention: Prune for airflow. Avoid excessive nitrogen. Resistant varieties.
+
+SQUASH — POWDERY MILDEW (Podosphaera xanthii)
+Symptoms: White powdery spots on upper leaf surface. Spreads rapidly in warm dry conditions.
+Chemical: Myclobutanil 0.5ml/L or azoxystrobin every 7-14 days.
+Organic: Potassium bicarbonate 5g/L, neem oil 5ml/L, or 1:9 milk:water spray.
+Immediate: Remove infected leaves. Apply fungicide or organic spray promptly.
+Prevention: Resistant varieties. Adequate plant spacing. Avoid overhead watering.
+
+ORANGE — CITRUS GREENING (Huanglongbing/HLB)
+Symptoms: Yellow shoots, asymmetric blotchy mottling on leaves, small lopsided bitter fruit. NO CURE.
+Chemical: No cure exists. Control Asian citrus psyllid vector with imidacloprid or spinosad.
+Organic: Sticky traps and reflective mulch to reduce psyllid populations.
+Immediate: Report to local agriculture authority — this is a regulated disease in many states.
+Prevention: Certified disease-free trees only. Psyllid monitoring. Quarantine regulations apply.
