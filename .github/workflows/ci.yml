@@ -23,14 +23,20 @@ jobs:
     - name: Lint services
       run: ruff check services/
 
-    - name: Install kubectl
+    - name: Install kubeconform
       run: |
-        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-        chmod +x kubectl
-        sudo mv kubectl /usr/local/bin/
+        # kubeconform is the right tool for offline manifest validation:
+        # validates YAML against the published K8s OpenAPI schemas without
+        # needing a cluster, and handles CRDs (like KEDA's ScaledObject)
+        # via --ignore-missing-schemas instead of failing on them.
+        curl -L -o kubeconform.tar.gz \
+          https://github.com/yannh/kubeconform/releases/download/v0.6.7/kubeconform-linux-amd64.tar.gz
+        tar xzf kubeconform.tar.gz
+        chmod +x kubeconform
+        sudo mv kubeconform /usr/local/bin/
 
     - name: Validate Kubernetes manifests
-      run: kubectl apply --dry-run=client --validate=false -f kubernetes/ --recursive
+      run: kubeconform -summary -strict -ignore-missing-schemas -kubernetes-version 1.29.0 kubernetes/
 
   build-images:
     runs-on: ubuntu-latest
