@@ -27,6 +27,9 @@ DISEASE_INFO = {
     "Powdery_mildew": {"severity": "low", "urgent": False},
 }
 
+# Case-insensitive lookup index built once at import time
+_DISEASE_INFO_LOWER = {k.lower(): v for k, v in DISEASE_INFO.items()}
+
 _pipe = None
 
 
@@ -39,21 +42,54 @@ def get_pipeline():
     return _pipe
 
 
+def _parse_label(raw_label: str) -> tuple[str, str]:
+    """
+    Extract (crop, disease_raw) from a model label.
+
+    Different plant-disease checkpoints on HuggingFace use different label
+    schemes. We handle both common ones:
+      - PlantVillage: "Tomato___Early_Blight"
+      - linkanjarad/mobilenet_v2: "Tomato with Early Blight"
+    plus a defensive "healthy" path for any "<Crop> Healthy" / "Healthy <Crop>"
+    style that omits both separators.
+    """
+    s = raw_label.strip()
+
+    if "___" in s:
+        crop, _, disease_raw = s.partition("___")
+        return crop.replace("_", " "), disease_raw or "Unknown"
+
+    lower = s.lower()
+    if " with " in lower:
+        idx = lower.find(" with ")
+        crop = s[:idx].strip()
+        disease_raw = s[idx + len(" with "):].strip().replace(" ", "_")
+        return crop, disease_raw or "Unknown"
+
+    if "healthy" in lower:
+        # e.g. "Healthy Tomato" or "Tomato Healthy"
+        crop = " ".join(w for w in s.split() if w.lower() != "healthy").strip() or "Plant"
+        return crop, "healthy"
+
+    return s, "Unknown"
+
+
 def detect_disease(image_bytes: bytes) -> dict:
     pipe = get_pipeline()
     image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
     results = pipe(image, top_k=3)
 
     top = results[0]
-    raw_label = top["label"]  # e.g. "Tomato___Early_Blight"
+    raw_label = top["label"]
 
-    parts = raw_label.split("___")
-    crop = parts[0].replace("_", " ") if len(parts) > 0 else "Unknown"
-    disease_raw = parts[1] if len(parts) > 1 else "Unknown"
+    crop, disease_raw = _parse_label(raw_label)
     disease = disease_raw.replace("_", " ")
     is_healthy = "healthy" in disease.lower()
 
-    meta = DISEASE_INFO.get(disease_raw, {"severity": "unknown", "urgent": False})
+    meta = _DISEASE_INFO_LOWER.get(
+        disease_raw.lower().strip(),
+        {"severity": "unknown", "urgent": False},
+    )
 
     return {
         "crop": crop,
