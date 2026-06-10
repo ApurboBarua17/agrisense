@@ -101,7 +101,9 @@ if uploaded_file:
     col1, col2 = st.columns([1, 1])
 
     with col1:
-        st.image(uploaded_file, caption="Uploaded image", use_container_width=True)
+        # NOTE: use_column_width on streamlit 1.35; use_container_width for st.image
+        # was added in 1.42. Keep this paired with the streamlit pin in requirements.txt.
+        st.image(uploaded_file, caption="Uploaded image", use_column_width=True)
 
     with col2:
         st.info("📤 Image ready. Click Analyze to detect disease.")
