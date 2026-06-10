@@ -37,7 +37,10 @@ case "$OS" in
 esac
 
 echo "Starting Minikube..."
-minikube start --memory=4096 --cpus=4 --driver=docker
+# Docker Desktop on dev machines is often capped around 4 GB; ask for a hair
+# less so minikube doesn't refuse to start. Bump these in Docker Desktop
+# Settings -> Resources if you want more headroom for the cluster.
+minikube start --memory=3500 --cpus=2 --driver=docker
 
 echo "Enabling addons..."
 minikube addons enable metrics-server

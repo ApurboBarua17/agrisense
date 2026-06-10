@@ -6,13 +6,9 @@ echo "=== Deploying AgriSense to Minikube ==="
 kubectl apply -f kubernetes/namespace.yaml
 kubectl apply -f kubernetes/configmap.yaml
 
-# Secrets (use placeholders if env vars are not set; services will fall back gracefully)
-kubectl create secret generic azure-secrets \
-  --from-literal=connection-string="${AZURE_AI_PROJECT_CONNECTION_STRING:-}" \
-  --namespace=agrisense \
-  --dry-run=client -o yaml | kubectl apply -f -
-
+# Single secret with both keys foundry-iq (GitHub Models) and market-intel (USDA NASS) need.
 kubectl create secret generic agrisense-secrets \
+  --from-literal=github-token="${GITHUB_TOKEN:-}" \
   --from-literal=usda-api-key="${USDA_NASS_API_KEY:-DEMO_KEY}" \
   --namespace=agrisense \
   --dry-run=client -o yaml | kubectl apply -f -

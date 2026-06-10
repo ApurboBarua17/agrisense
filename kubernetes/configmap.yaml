@@ -9,3 +9,4 @@ data:
   DATABASE_URL: "postgresql://agrisense:agrisense@postgres-service:5432/agrisense"
   FOUNDRY_IQ_URL: "http://foundry-iq-service:8001"
   MARKET_INTEL_URL: "http://market-intel-service:8002"
+  AZURE_MODEL_DEPLOYMENT: "gpt-4o-mini"

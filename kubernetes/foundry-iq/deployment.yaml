@@ -23,12 +23,11 @@ spec:
         - configMapRef:
             name: agrisense-config
         env:
-        - name: AZURE_AI_PROJECT_CONNECTION_STRING
+        - name: GITHUB_TOKEN
           valueFrom:
             secretKeyRef:
-              name: azure-secrets
-              key: connection-string
-              optional: true
+              name: agrisense-secrets
+              key: github-token
         resources:
           requests:
             memory: "256Mi"
