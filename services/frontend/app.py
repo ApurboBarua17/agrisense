@@ -27,7 +27,7 @@ st.markdown(
       }
 
       /* --- Layout --------------------------------------------------------- */
-      .stApp { background: #F8FAF6; }
+      .stApp { background: #FAFAF5; }
       .main .block-container {
         padding-top: 2.25rem;
         padding-bottom: 3rem;
@@ -36,30 +36,16 @@ st.markdown(
 
       /* --- Hero ----------------------------------------------------------- */
       .agri-hero {
-        position: relative;
-        overflow: hidden;
-        background: linear-gradient(135deg, #15803D 0%, #16A34A 60%, #22C55E 100%);
+        background: linear-gradient(160deg, #166534 0%, #15803D 100%);
         color: #ffffff;
-        padding: 1.8rem 2rem 1.5rem 2rem;
+        padding: 1.7rem 1.9rem 1.45rem 1.9rem;
         border-radius: 16px;
         margin: 0.25rem 0 1.5rem 0;
-        box-shadow:
-          0 1px 2px rgba(15, 23, 42, 0.06),
-          0 10px 28px rgba(22, 163, 74, 0.20);
-      }
-      .agri-hero::before {
-        content: "";
-        position: absolute; inset: 0;
-        background: radial-gradient(
-          circle at 100% 0%,
-          rgba(255, 255, 255, 0.16) 0%,
-          rgba(255, 255, 255, 0) 55%
-        );
-        pointer-events: none;
+        box-shadow: 0 6px 20px rgba(20, 83, 45, 0.14);
       }
       .agri-hero-title {
         margin: 0;
-        font-size: 2rem;
+        font-size: 1.9rem;
         font-weight: 700;
         letter-spacing: -0.025em;
         line-height: 1.15;
@@ -91,14 +77,13 @@ st.markdown(
 
       /* --- File uploader -------------------------------------------------- */
       [data-testid="stFileUploader"] section {
-        border: 2px dashed #16A34A !important;
-        background: linear-gradient(180deg, #F7FCF5 0%, #ECFDF5 100%) !important;
+        border: 1.5px dashed #16A34A !important;
+        background: #F0FDF4 !important;
         border-radius: 14px !important;
         padding: 1.25rem !important;
-        transition: background 0.15s ease, border-color 0.15s ease;
+        transition: border-color 0.15s ease;
       }
       [data-testid="stFileUploader"] section:hover {
-        background: linear-gradient(180deg, #F0FDF4 0%, #DCFCE7 100%) !important;
         border-color: #15803D !important;
       }
 
@@ -107,18 +92,15 @@ st.markdown(
         border-radius: 10px;
         font-weight: 600;
         letter-spacing: 0.01em;
-        transition: transform 0.1s ease, box-shadow 0.15s ease, background 0.15s ease;
+        transition: background 0.15s ease;
       }
       .stButton > button[kind="primary"] {
-        background: linear-gradient(180deg, #16A34A 0%, #15803D 100%);
+        background: #15803D;
         border: none;
         color: #ffffff;
-        box-shadow: 0 1px 2px rgba(22, 163, 74, 0.25);
       }
       .stButton > button[kind="primary"]:hover {
-        background: linear-gradient(180deg, #22C55E 0%, #16A34A 100%);
-        box-shadow: 0 3px 8px rgba(22, 163, 74, 0.30);
-        transform: translateY(-1px);
+        background: #16A34A;
       }
 
       /* --- Expanders as cards -------------------------------------------- */
@@ -176,8 +158,8 @@ st.markdown(
 
       /* --- Sidebar polish ------------------------------------------------ */
       [data-testid="stSidebar"] {
-        background: #F4F4EE;
-        border-right: 1px solid #E5E7EB;
+        background: #F3F6F0;
+        border-right: 1px solid #E4E9E2;
       }
       [data-testid="stSidebar"] h1,
       [data-testid="stSidebar"] h2,

@@ -1,6 +1,7 @@
 """
 AgriSense API Gateway.
 
+- GET  /            : landing page (static, links to the Streamlit app)
 - POST /analyze     : accept image upload, queue the job in Redis, KEDA scales worker
 - GET  /result/{id} : poll for status + result
 - GET  /queue-depth : current Redis queue depth (great for demo)
@@ -8,6 +9,7 @@ AgriSense API Gateway.
 """
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 import redis
 import json
 import uuid
@@ -32,6 +34,21 @@ DB_URL = os.environ.get(
     "DATABASE_URL",
     "postgresql://agrisense:agrisense@postgres-service:5432/agrisense",
 )
+
+# Where the landing page's "Open the app" buttons point. Defaults to the
+# docker-compose Streamlit URL; override per environment.
+FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:8501")
+
+_LANDING_PATH = os.path.join(os.path.dirname(__file__), "static", "index.html")
+_landing_html = None
+
+
+def get_landing_html() -> str:
+    global _landing_html
+    if _landing_html is None:
+        with open(_LANDING_PATH, encoding="utf-8") as f:
+            _landing_html = f.read().replace("__FRONTEND_URL__", FRONTEND_URL)
+    return _landing_html
 
 
 def get_db():
@@ -72,6 +89,18 @@ def on_startup():
             print(f"[gateway] init_db retry {attempt + 1}: {e}")
             time.sleep(2)
     print("[gateway] WARNING: could not init DB on startup; will retry on first request")
+
+
+@app.get("/", response_class=HTMLResponse)
+async def landing():
+    """Marketing landing page; links through to the Streamlit app."""
+    try:
+        return get_landing_html()
+    except FileNotFoundError:
+        return HTMLResponse(
+            '<h1>AgriSense API</h1><p>Landing page not bundled. '
+            'See <a href="/docs">/docs</a>.</p>'
+        )
 
 
 @app.post("/analyze")

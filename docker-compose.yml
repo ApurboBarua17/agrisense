@@ -24,6 +24,7 @@ services:
     environment:
       REDIS_HOST: redis
       DATABASE_URL: postgresql://agrisense:agrisense@postgres:5432/agrisense
+      FRONTEND_URL: http://localhost:8501
     depends_on:
       - redis
       - postgres

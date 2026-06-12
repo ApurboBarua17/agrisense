@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriSense — Crop disease answers from a single photo</title>
+<meta name="description" content="AgriSense diagnoses crop disease from a photo and tells you how to treat it — and when to sell — in under a minute.">
+<style>
+  :root {
+    --green-950: #0F3D22;
+    --green-900: #14532D;
+    --green-700: #15803D;
+    --green-600: #16A34A;
+    --green-500: #22C55E;
+    --green-100: #DCFCE7;
+    --green-50:  #F0FDF4;
+    --cream:     #FAFAF5;
+    --ink:       #14201A;
+    --muted:     #5C6B62;
+    --line:      #E4E9E2;
+    --card:      #FFFFFF;
+    --radius:    16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- Nav ---------- */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem clamp(1.25rem, 5vw, 4rem);
+    background: rgba(250, 250, 245, 0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-weight: 700;
+    font-size: 1.12rem;
+    letter-spacing: -0.01em;
+    color: var(--green-900);
+    text-decoration: none;
+  }
+  .nav-brand svg { width: 26px; height: 26px; }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+  }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  .nav-links a:hover { color: var(--green-700); }
+  /* .nav-links a outranks .btn on specificity — re-assert button text color */
+  .nav-links a.btn, .nav-links a.btn:hover { color: #fff; }
+  .btn {
+    display: inline-block;
+    background: var(--green-700);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.92rem;
+    padding: 0.6rem 1.3rem;
+    border-radius: 10px;
+    transition: background 0.15s ease;
+  }
+  .btn:hover { background: var(--green-600); }
+  .btn-lg { font-size: 1.05rem; padding: 0.85rem 1.9rem; border-radius: 12px; }
+  @media (max-width: 640px) { .nav-links a:not(.btn) { display: none; } }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(4rem, 9vw, 7.5rem) clamp(1.25rem, 5vw, 4rem) clamp(5rem, 10vw, 8rem);
+    text-align: center;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    background: var(--green-100);
+    color: var(--green-900);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 0.3rem 0.9rem;
+    border-radius: 999px;
+    margin-bottom: 1.4rem;
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.08;
+    max-width: 17ch;
+    margin: 0 auto 1.3rem;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--green-700);
+  }
+  .hero p {
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    color: var(--muted);
+    max-width: 36rem;
+    margin: 0 auto 2.2rem;
+  }
+  .hero-cta { display: flex; gap: 0.9rem; justify-content: center; flex-wrap: wrap; }
+  .btn-ghost {
+    display: inline-block;
+    color: var(--green-900);
+    background: transparent;
+    border: 1.5px solid var(--line);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.05rem;
+    padding: 0.85rem 1.9rem;
+    border-radius: 12px;
+    transition: border-color 0.15s ease;
+  }
+  .btn-ghost:hover { border-color: var(--green-600); }
+  .hero-field {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+  }
+
+  /* ---------- Sections ---------- */
+  section { padding: clamp(3.5rem, 7vw, 6rem) clamp(1.25rem, 5vw, 4rem); }
+  .section-head { text-align: center; max-width: 42rem; margin: 0 auto 3rem; }
+  .section-head h2 {
+    font-size: clamp(1.7rem, 3.6vw, 2.4rem);
+    font-weight: 750;
+    letter-spacing: -0.025em;
+    margin-bottom: 0.7rem;
+  }
+  .section-head p { color: var(--muted); font-size: 1.05rem; }
+
+  /* ---------- How it works ---------- */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.25rem;
+    max-width: 64rem;
+    margin: 0 auto;
+  }
+  .step-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.9rem 1.6rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .step-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(20, 83, 45, 0.08);
+  }
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: var(--green-50);
+    color: var(--green-700);
+    font-weight: 700;
+    margin-bottom: 1.1rem;
+  }
+  .step-card h3 { font-size: 1.12rem; font-weight: 700; margin-bottom: 0.45rem; letter-spacing: -0.01em; }
+  .step-card p { color: var(--muted); font-size: 0.94rem; }
+
+  /* ---------- Stats band ---------- */
+  .stats {
+    background: var(--green-950);
+    color: #fff;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 2rem;
+    max-width: 60rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .stat-value {
+    font-size: clamp(2rem, 4.5vw, 2.9rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--green-500);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-label { color: rgba(255,255,255,0.75); font-size: 0.9rem; margin-top: 0.3rem; }
+
+  /* ---------- Feature rows ---------- */
+  .feature {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+    max-width: 64rem;
+    margin: 0 auto;
+  }
+  .feature + .feature { margin-top: clamp(3.5rem, 7vw, 6rem); }
+  .feature.flip .feature-copy { order: 2; }
+  @media (max-width: 760px) {
+    .feature { grid-template-columns: 1fr; }
+    .feature.flip .feature-copy { order: 0; }
+  }
+  .feature-tag {
+    display: inline-block;
+    color: var(--green-700);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.7rem;
+  }
+  .feature-copy h3 {
+    font-size: clamp(1.45rem, 3vw, 1.9rem);
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.8rem;
+  }
+  .feature-copy p { color: var(--muted); }
+  .feature-copy ul { list-style: none; margin-top: 1.1rem; }
+  .feature-copy li {
+    position: relative;
+    padding-left: 1.7rem;
+    margin-bottom: 0.55rem;
+    color: var(--ink);
+    font-size: 0.96rem;
+  }
+  .feature-copy li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0.42em;
+    width: 16px; height: 16px;
+    background: var(--green-100);
+    border-radius: 50%;
+  }
+  .feature-copy li::after {
+    content: "";
+    position: absolute;
+    left: 4.5px; top: calc(0.42em + 4.5px);
+    width: 7px; height: 4px;
+    border-left: 2px solid var(--green-700);
+    border-bottom: 2px solid var(--green-700);
+    transform: rotate(-45deg);
+  }
+  .feature-visual {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.6rem;
+    box-shadow: 0 18px 44px rgba(20, 83, 45, 0.09);
+  }
+
+  /* mock result card */
+  .mock-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+  .mock-chip {
+    background: #FEF3C7;
+    color: #92400E;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+  }
+  .mock-title { font-weight: 750; font-size: 1.1rem; letter-spacing: -0.01em; }
+  .mock-sub { color: var(--muted); font-size: 0.84rem; }
+  .conf-track {
+    height: 10px;
+    background: var(--green-50);
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 0.45rem 0 1.2rem;
+  }
+  .conf-fill {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--green-600), var(--green-500));
+    border-radius: 999px;
+    transition: width 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .in .conf-fill { width: 94%; }
+  .mock-treat {
+    background: var(--green-50);
+    border: 1px solid var(--green-100);
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+    font-size: 0.88rem;
+  }
+  .mock-treat strong { color: var(--green-900); }
+  .mock-src { color: var(--muted); font-size: 0.76rem; margin-top: 0.55rem; }
+
+  /* chart */
+  .chart-caption { display: flex; justify-content: space-between; margin-top: 0.9rem; font-size: 0.82rem; color: var(--muted); }
+  .chart-caption strong { color: var(--green-700); }
+
+  /* ---------- Mission ---------- */
+  .mission {
+    background: var(--green-50);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .mission-inner { max-width: 46rem; margin: 0 auto; text-align: center; }
+  .mission-inner h2 {
+    font-size: clamp(1.6rem, 3.4vw, 2.2rem);
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+  .mission-inner p { color: var(--muted); font-size: 1.05rem; margin-bottom: 0.9rem; }
+
+  /* ---------- CTA ---------- */
+  .cta-final { text-align: center; }
+  .cta-final h2 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+  .cta-final p { color: var(--muted); margin-bottom: 2rem; font-size: 1.05rem; }
+
+  /* ---------- Footer ---------- */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 2rem clamp(1.25rem, 5vw, 4rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  footer a { color: var(--green-700); text-decoration: none; font-weight: 500; }
+  footer a:hover { text-decoration: underline; }
+
+  /* ---------- Floating CTA ---------- */
+  .fab {
+    position: fixed;
+    right: 1.4rem;
+    bottom: 1.4rem;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--green-700);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 650;
+    font-size: 0.95rem;
+    padding: 0.8rem 1.4rem;
+    border-radius: 999px;
+    box-shadow: 0 10px 30px rgba(21, 128, 61, 0.35);
+    transition: background 0.15s ease, box-shadow 0.15s ease;
+  }
+  .fab:hover {
+    background: var(--green-600);
+    box-shadow: 0 12px 36px rgba(21, 128, 61, 0.45);
+  }
+  .fab svg { width: 17px; height: 17px; }
+
+  /* ---------- Scroll reveal ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal:nth-child(2) { transition-delay: 0.08s; }
+  .reveal:nth-child(3) { transition-delay: 0.16s; }
+  .reveal:nth-child(4) { transition-delay: 0.24s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .conf-fill { transition: none; }
+    .step-card, .fab, .btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="#top">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 22C12 22 4 16.5 4 9.5C4 5.4 7.3 3 10 3C11 3 12 3.5 12 3.5C12 3.5 13 3 14 3C16.7 3 20 5.4 20 9.5C20 16.5 12 22 12 22Z" fill="#16A34A" opacity="0.18"/>
+      <path d="M12 21C12 13 12 9 12 6M12 10C10 9 8.5 7.5 8 5C10.5 5.2 12 6.8 12 10ZM12 14C14 13 15.5 11.5 16 9C13.5 9.2 12 10.8 12 14Z" stroke="#15803D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    AgriSense
+  </a>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="#features">What you get</a>
+    <a href="#mission">Why</a>
+    <a class="btn" href="__FRONTEND_URL__">Open the app</a>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <span class="hero-eyebrow">For every farmer with a phone</span>
+  <h1>Sick crop? <em>Snap a photo.</em> Know what to do.</h1>
+  <p>
+    AgriSense identifies the disease, gives you a treatment plan grounded in
+    USDA guidance, and tells you whether to sell now or treat and wait —
+    all in under a minute.
+  </p>
+  <div class="hero-cta">
+    <a class="btn btn-lg" href="__FRONTEND_URL__">Check your crop</a>
+    <a class="btn-ghost" href="#how">See how it works</a>
+  </div>
+  <svg class="hero-field" viewBox="0 0 1440 110" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 80 Q 360 30 720 65 T 1440 55 L 1440 110 L 0 110 Z" fill="#F0FDF4"/>
+    <path d="M0 95 Q 420 55 840 85 T 1440 80 L 1440 110 L 0 110 Z" fill="#DCFCE7" opacity="0.8"/>
+  </svg>
+</header>
+
+<!-- ================= HOW IT WORKS ================= -->
+<section id="how">
+  <div class="section-head reveal">
+    <h2>Three steps from worry to plan</h2>
+    <p>No agronomy degree needed. If you can take a photo, you can use AgriSense.</p>
+  </div>
+  <div class="steps">
+    <div class="step-card reveal">
+      <span class="step-num">1</span>
+      <h3>Photograph the leaf</h3>
+      <p>Take a photo of the troubled plant with any phone and upload it. Blurry is fine — the model has seen worse.</p>
+    </div>
+    <div class="step-card reveal">
+      <span class="step-num">2</span>
+      <h3>Get the diagnosis &amp; treatment</h3>
+      <p>The disease name with a confidence score, plus a treatment plan with exact doses — chemical and organic options, cited to USDA guidance.</p>
+    </div>
+    <div class="step-card reveal">
+      <span class="step-num">3</span>
+      <h3>Sell at the right time</h3>
+      <p>A price forecast for your crop tells you whether to sell now or treat the disease and sell at harvest for a better margin.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STATS ================= -->
+<section class="stats">
+  <div class="stats-grid">
+    <div class="reveal">
+      <div class="stat-value" data-count="220" data-prefix="$" data-suffix="B">$0B</div>
+      <div class="stat-label">lost to crop disease worldwide, every year</div>
+    </div>
+    <div class="reveal">
+      <div class="stat-value" data-count="38" data-suffix="">0</div>
+      <div class="stat-label">diseases recognized across 14 crops</div>
+    </div>
+    <div class="reveal">
+      <div class="stat-value" data-count="60" data-prefix="&lt;" data-suffix="s">&lt;0s</div>
+      <div class="stat-label">from photo to full action plan</div>
+    </div>
+    <div class="reveal">
+      <div class="stat-value" data-count="3" data-suffix="-week">0</div>
+      <div class="stat-label">market price forecast with every diagnosis</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FEATURES ================= -->
+<section id="features">
+  <div class="section-head reveal">
+    <h2>What you get with every photo</h2>
+    <p>One upload returns three answers: what it is, how to treat it, and when to sell.</p>
+  </div>
+
+  <!-- Feature 1: diagnosis -->
+  <div class="feature">
+    <div class="feature-copy reveal">
+      <span class="feature-tag">Diagnosis</span>
+      <h3>A name, not a guess</h3>
+      <p>
+        AgriSense recognizes 38 diseases across tomatoes, potatoes, apples, corn,
+        grapes and more — and tells you how sure it is, so you can decide whether
+        to act now or get a second opinion.
+      </p>
+      <ul>
+        <li>Disease name with confidence score</li>
+        <li>Severity rating — from "watch it" to "act today"</li>
+        <li>Top alternative possibilities, so nothing is hidden</li>
+      </ul>
+    </div>
+    <div class="feature-visual reveal">
+      <div class="mock-row">
+        <div>
+          <div class="mock-title">Tomato — Early Blight</div>
+          <div class="mock-sub">Alternaria solani · moderate severity</div>
+        </div>
+        <span class="mock-chip">Act this week</span>
+      </div>
+      <div class="mock-sub">Confidence</div>
+      <div class="conf-track"><div class="conf-fill"></div></div>
+      <div class="mock-treat">
+        <strong>Treatment:</strong> Copper fungicide at 2.5 g/L every 7 days for
+        3 weeks. Organic option: neem oil at 5 mL/L.
+        <div class="mock-src">Source: USDA Extension guidance</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature 2: market timing -->
+  <div class="feature flip">
+    <div class="feature-copy reveal">
+      <span class="feature-tag">Market timing</span>
+      <h3>Treat and wait — or sell now?</h3>
+      <p>
+        A diseased field forces a hard choice: salvage what you can today, or
+        spend on treatment and bet on harvest. AgriSense forecasts your crop's
+        price weeks ahead so that bet is informed, not blind.
+      </p>
+      <ul>
+        <li>Current price and 3-week forecast for your crop</li>
+        <li>Clear recommendation: wait, hold, or sell now</li>
+        <li>Built on public USDA market data — no paywall</li>
+      </ul>
+    </div>
+    <div class="feature-visual reveal">
+      <svg viewBox="0 0 420 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tomato price forecast chart">
+        <!-- grid -->
+        <line x1="40" y1="30"  x2="400" y2="30"  stroke="#EDF2EE" stroke-width="1"/>
+        <line x1="40" y1="80"  x2="400" y2="80"  stroke="#EDF2EE" stroke-width="1"/>
+        <line x1="40" y1="130" x2="400" y2="130" stroke="#EDF2EE" stroke-width="1"/>
+        <line x1="40" y1="180" x2="400" y2="180" stroke="#EDF2EE" stroke-width="1"/>
+        <!-- y labels -->
+        <text x="8"  y="34"  font-size="11" fill="#9AA79E">$0.60</text>
+        <text x="8"  y="84"  font-size="11" fill="#9AA79E">$0.50</text>
+        <text x="8"  y="134" font-size="11" fill="#9AA79E">$0.40</text>
+        <text x="8"  y="184" font-size="11" fill="#9AA79E">$0.30</text>
+        <!-- confidence band (forecast region) -->
+        <path d="M260 122 L 305 105 L 350 88 L 395 62 L 395 100 L 350 118 L 305 130 L 260 134 Z" fill="#DCFCE7" opacity="0.7"/>
+        <!-- historical line -->
+        <path d="M40 150 L 84 138 L 128 145 L 172 128 L 216 132 L 260 128" fill="none" stroke="#15803D" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- forecast line -->
+        <path d="M260 128 L 305 117 L 350 103 L 395 81" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-dasharray="6 5" stroke-linecap="round"/>
+        <!-- now marker -->
+        <circle cx="260" cy="128" r="4.5" fill="#15803D"/>
+        <circle cx="395" cy="81" r="4.5" fill="#22C55E"/>
+        <text x="248" y="152" font-size="11" font-weight="600" fill="#15803D">now $0.43</text>
+        <text x="318" y="68" font-size="11" font-weight="600" fill="#16A34A">+3wk $0.58</text>
+      </svg>
+      <div class="chart-caption">
+        <span>Tomato · price per lb</span>
+        <strong>WAIT — treat and sell at harvest (+35%)</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature 3: trust -->
+  <div class="feature">
+    <div class="feature-copy reveal">
+      <span class="feature-tag">Grounded advice</span>
+      <h3>Advice you can hold in your hand</h3>
+      <p>
+        Wrong doses ruin crops. Every treatment AgriSense suggests is grounded
+        in published agricultural extension documents — with the source named —
+        so you're never trusting a black box with your season.
+      </p>
+      <ul>
+        <li>Exact concentrations and schedules, never "apply some fungicide"</li>
+        <li>An organic alternative with every chemical recommendation</li>
+        <li>Prevention tips so next season starts cleaner</li>
+      </ul>
+    </div>
+    <div class="feature-visual reveal">
+      <div class="mock-row">
+        <div>
+          <div class="mock-title">Your treatment plan</div>
+          <div class="mock-sub">Generated for: Early Blight · moderate</div>
+        </div>
+      </div>
+      <div class="mock-treat" style="margin-bottom:0.7rem">
+        <strong>Today:</strong> Remove infected lower leaves. Don't compost them.
+      </div>
+      <div class="mock-treat" style="margin-bottom:0.7rem">
+        <strong>This week:</strong> Copper hydroxide 2.5 g/L, repeat every 7 days × 3 weeks.
+      </div>
+      <div class="mock-treat">
+        <strong>Next season:</strong> Rotate crops for 3 years; mulch to stop soil splash.
+        <div class="mock-src">Source: USDA Extension Bulletin — tomato early blight</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MISSION ================= -->
+<section class="mission" id="mission">
+  <div class="mission-inner reveal">
+    <h2>Built for the farmers the market forgot</h2>
+    <p>
+      Five hundred million smallholder farms grow a third of the world's food.
+      Most can't afford an agronomist, and by the time disease is obvious to the
+      eye, half the yield is already gone.
+    </p>
+    <p>
+      AgriSense puts a plant pathologist and a market analyst in every pocket —
+      for the price of a photo.
+    </p>
+  </div>
+</section>
+
+<!-- ================= FINAL CTA ================= -->
+<section class="cta-final">
+  <div class="reveal">
+    <h2>Ready to check your crop?</h2>
+    <p>Upload a photo. Get your answer before the kettle boils.</p>
+    <a class="btn btn-lg" href="__FRONTEND_URL__">Open AgriSense</a>
+  </div>
+</section>
+
+<footer>
+  <span>🌾 AgriSense — crop disease &amp; market intelligence</span>
+  <span><a href="https://github.com/ApurboBarua17/agrisense" target="_blank" rel="noopener">Open source on GitHub</a> · MIT</span>
+</footer>
+
+<!-- Floating CTA -->
+<a class="fab" href="__FRONTEND_URL__" aria-label="Open the AgriSense app">
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 21C12 13 12 9 12 6M12 10C10 9 8.5 7.5 8 5C10.5 5.2 12 6.8 12 10ZM12 14C14 13 15.5 11.5 16 9C13.5 9.2 12 10.8 12 14Z" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  Try AgriSense
+</a>
+
+<script>
+  // Scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) {
+        e.target.classList.add("in");
+        io.unobserve(e.target);
+      }
+    }
+  }, { threshold: 0.18 });
+  document.querySelectorAll(".reveal, .feature-visual").forEach((el) => io.observe(el));
+
+  // Stat count-up
+  const fmt = (el, v) =>
+    (el.dataset.prefix || "").replace("&lt;", "<") + v + (el.dataset.suffix || "");
+  const cio = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      cio.unobserve(e.target);
+      const el = e.target;
+      const target = parseInt(el.dataset.count, 10);
+      const dur = 900;
+      const t0 = performance.now();
+      const tick = (t) => {
+        const p = Math.min((t - t0) / dur, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmt(el, Math.round(target * eased));
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        el.textContent = fmt(el, target);
+      } else {
+        requestAnimationFrame(tick);
+      }
+    }
+  }, { threshold: 0.5 });
+  document.querySelectorAll(".stat-value").forEach((el) => cio.observe(el));
+</script>
+</body>
+</html>
